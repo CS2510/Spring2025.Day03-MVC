@@ -13,8 +13,7 @@
         <canvas id="canv"></canvas>
         <script>
 
-            //int draw(){
-            //def draw():
+            // Game-specific state variables
             let rectangleX 
             let rectangleY
 
@@ -23,15 +22,23 @@
 
             let frames
 
+            // Engine-specific state variables
             let canvas
             let ctx
 
-            //game loop
+            //Game loop (engine code)
             function tick(){
                 update()
                 draw()
             }
 
+            /**
+             * Setup the state of the game (game specific)
+             * Unity: Start()
+             * Unreal: BeginPlay()
+             * Game Maker Studio: create
+             * Godot: _ready()
+            */
             function start(){
                 rectangleX = 10
                 rectangleY = 10
@@ -43,7 +50,10 @@
             }
 
             /**
-             * Unity: update or fixedUpdate()
+             * Update the state of the game (game specific)
+             * Unity: Update() or FixedUpdate()
+             * Unreal: Tick()
+             * Game Maker Studio: step
              * Godot: _process()
              */
             function update(){
@@ -70,6 +80,10 @@
 
             }
 
+            /**
+             * Draw the state of the game (game specific)
+             * Often handled by a game engine's IDE
+            */
             function draw(){
                 
 
@@ -111,6 +125,7 @@
                 ctx.stroke()
             }
 
+            // Keyboard input management (engine code)
             let keysdown = []
 
             function keydown(event){
@@ -128,6 +143,9 @@
                 //keysdown.push(event.code)
             }
 
+            /**
+             * Setup the internals for the controller and view to run (engine code)
+            */
             function setup(){
                 window.addEventListener("keydown", keydown)
                 window.addEventListener("keyup", keyup)
@@ -136,9 +154,9 @@
                 ctx = canvas.getContext("2d")
             }
 
-            setup()
-            start()
-            setInterval(tick, 50)
+            setup() //Setup the mechanics of the game (engine code)
+            start() //Setup the state of the game (game code)
+            setInterval(tick, 50) //Start the game loop (engine code)
             
         </script>
     </body>
