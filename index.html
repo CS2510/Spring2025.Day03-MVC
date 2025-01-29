@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Day 03 - MVC</title>
+        <style>
+            *{
+                margin: 0px;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canv"></canvas>
+        <script>
+
+            //int draw(){
+            //def draw():
+            let rectangleX 
+            let rectangleY
+
+            let sphereX 
+            let sphereY
+
+            let frames
+
+            let canvas
+            let ctx
+
+            //game loop
+            function tick(){
+                update()
+                draw()
+            }
+
+            function start(){
+                rectangleX = 10
+                rectangleY = 10
+
+                sphereX = 100
+                sphereY = 200
+
+                frames = 0
+            }
+
+            /**
+             * Unity: update or fixedUpdate()
+             * Godot: _process()
+             */
+            function update(){
+                //x++ //x+=1
+                frames ++
+
+                if (keysdown.includes("ArrowUp")){
+                    rectangleY -= 1
+                }
+                if (keysdown.includes("ArrowDown")){
+                    rectangleY += 1
+                }
+                if (keysdown.includes("ArrowLeft")){
+                    rectangleX -= 1
+                }
+                if (keysdown.includes("ArrowRight")){
+                    rectangleX += 1
+                }
+
+                sphereX = 100 + 275*Math.sin(frames/100)
+
+                if(rectangleY > 200)
+                    console.log("You won!")
+
+            }
+
+            function draw(){
+                
+
+                canvas.width = window.innerWidth
+                canvas.height = window.innerHeight
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+                ctx.beginPath()
+                ctx.fillStyle = "green"
+                ctx.strokeStyle = "yellow"
+                ctx.lineWidth = 5
+                ctx.rect(rectangleX, rectangleY, 50, 75)
+                
+                ctx.fill()
+                ctx.stroke()
+
+                //Draw sphere code
+                ctx.beginPath()
+                ctx.fillStyle = "orange"
+                ctx.strokeStyle = "blue"
+                ctx.lineWidth = 5
+                ctx.arc(sphereX, sphereY, 20, 0, 2*Math.PI)
+                
+                ctx.fill()
+                ctx.stroke()
+
+                //Draw text
+                ctx.fillStyle = "purple"
+                ctx.font = "30px Times New Roman"
+                ctx.fillText("Score: " + frames, 0, 20)
+
+                //Draw line
+                ctx.beginPath()
+                ctx.strokeStyle = "green"
+                ctx.lineWidth = 5
+                ctx.moveTo(0, 100)
+                ctx.lineTo(200, 100)
+                
+                ctx.stroke()
+            }
+
+            let keysdown = []
+
+            function keydown(event){
+                if(!keysdown.includes(event.code))
+                    keysdown.push(event.code)
+
+                
+            }
+
+            function keyup(event){
+                console.log(event.code)
+
+                let index = keysdown.indexOf(event.code)
+                keysdown.splice(index,1)
+                //keysdown.push(event.code)
+            }
+
+            function setup(){
+                window.addEventListener("keydown", keydown)
+                window.addEventListener("keyup", keyup)
+
+                canvas = document.getElementById("canv")
+                ctx = canvas.getContext("2d")
+            }
+
+            setup()
+            start()
+            setInterval(tick, 50)
+            
+        </script>
+    </body>
+</html>
